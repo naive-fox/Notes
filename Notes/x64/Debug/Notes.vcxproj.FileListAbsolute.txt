@@ -1,2 +1,0 @@
-D:\VSProject\Note\Notes\x64\Debug\Notes.exe
-D:\GitHub_test\Notes\Notes\x64\Debug\Notes.exe
