@@ -22,11 +22,11 @@ void Notes::InitSystemTrayIcon()
 {
    // this->hide();
 
-    m_systemIcon = new QSystemTrayIcon(this);
-    QIcon icon = QIcon("Notes.ico");
-    m_systemIcon->setIcon(icon);
+    m_systemTray = new QSystemTrayIcon(this);
+    QIcon icon = QIcon("test.png");
+    m_systemTray->setIcon(icon);
 
-    connect(m_systemIcon, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason)
+    connect(m_systemTray, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason)
         {
             switch (reason)
             {
@@ -48,8 +48,8 @@ void Notes::InitSystemTrayIcon()
 
     CreateAction();
     CreateMenu();
-
-    m_systemIcon->show();
+        
+    m_systemTray->show();
 }
 
 void Notes::CreateAction()
@@ -67,7 +67,7 @@ void Notes::CreateMenu()
     m_menu->addSeparator();
     m_menu->addAction(m_exitAction);
 
-    m_systemIcon->setContextMenu(m_menu);
+    m_systemTray->setContextMenu(m_menu);
 }
 
 void Notes::on_showMainAction()

@@ -1,6 +1,2 @@
-﻿  Reading Qt configuration (D:/Qt/Qt5.12.10/5.12.10/msvc2017_64/bin/qmake)
-  moc Notes.h
-  Notes.cpp
-  main.cpp
-  moc_Notes.cpp
-  Notes.vcxproj -> D:\VSProject\Note\Notes\x64\Debug\Notes.exe
+﻿  Reading Qt configuration (D:/Qt/Qt5.12.12/5.12.12/msvc2017_64/bin/qmake)
+  Notes.vcxproj -> D:\GitHub_test\Notes\Notes\x64\Debug\Notes.exe

@@ -27,7 +27,6 @@ private slots:
 protected:
     void closeEvent(QCloseEvent* event) override;
 private:
-    QSystemTrayIcon* m_systemIcon;
     QSystemTrayIcon* m_systemTray;
     QMenu* m_menu;
     QAction* m_showMainWindowAction;
