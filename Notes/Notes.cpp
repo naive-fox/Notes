@@ -23,7 +23,7 @@ void Notes::InitSystemTrayIcon()
    // this->hide();
 
     m_systemTray = new QSystemTrayIcon(this);
-    QIcon icon = QIcon("test.png");
+    QIcon icon = QIcon("mars_1.png");
     m_systemTray->setIcon(icon);
 
     connect(m_systemTray, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason)
