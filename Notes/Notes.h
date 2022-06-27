@@ -22,6 +22,8 @@ private:
     void CreateAction();
     void CreateMenu();
     void InsertDesktop();
+    void InsertDesktop2();
+    static bool enumUserWindowsCB(HWND hwnd, LPARAM lParam);
 private slots:
     void lockwindow();
     void on_showMainAction();
