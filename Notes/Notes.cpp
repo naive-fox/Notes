@@ -13,7 +13,7 @@ Notes::Notes(QMainWindow *parent)
     //设置背景颜色
     //this->setStyleSheet("background:#67BBF0");
     //设置透明化
-    this->setWindowOpacity(0.6);
+    //this->setWindowOpacity(0.6);
 
 
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);
@@ -97,7 +97,7 @@ void Notes::InsertDesktop()
    
     if (m_lockstatus)
     {
-        InsertDesktop2();
+       // InsertDesktop2();
 
 
 
@@ -114,10 +114,12 @@ void Notes::InsertDesktop()
     //    SetParent((HWND)this->winId(), (HWND)0x00010184);
 
     //    ShowWindow(hwndWorkerW, 0);
+        SetParent((HWND)this->winId(), NULL);
     }
     else
     {
-        SetParent((HWND)this->winId(), NULL);
+        SetParent((HWND)this->winId(), (HWND)(0x000101A6));
+        //this->setWindowFlags(Qt::FramelessWindowHint);
     }
     m_lockstatus = !m_lockstatus;
 }
