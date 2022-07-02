@@ -1,5 +1,6 @@
 #include "Notes.h"
 
+
 Notes::Notes(QMainWindow *parent)
     : QMainWindow(parent)
 {
@@ -11,29 +12,23 @@ Notes::Notes(QMainWindow *parent)
     //设置无边框
     //this->setWindowFlags(Qt::FramelessWindowHint);
     //设置背景颜色
-    //this->setStyleSheet("background:#67BBF0");
-    //设置透明化
-    //this->setWindowOpacity(0.6);
-
-
-    this->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
+    this->setStyleSheet("background:#67BBF0");
+    //设置托盘图标
     InitSystemTrayIcon();
-
     
 }
 
 Notes::~Notes()
 {
-    if (nullptr == m_systemTray)
+    if (nullptr != m_systemTray)
         delete m_systemTray;
-    if (nullptr == m_menu)
+    if (nullptr != m_menu)
         delete m_menu;
-    if (nullptr == m_lockwindow)
+    if (nullptr != m_lockwindow)
         delete  m_lockwindow;
-    if (nullptr == m_showMainWindowAction)
+    if (nullptr != m_showMainWindowAction)
         delete m_showMainWindowAction;
-    if (nullptr == m_exitAction)
+    if (nullptr != m_exitAction)
         delete m_exitAction;
 }
 
@@ -75,6 +70,8 @@ void Notes::CreateAction()
 {
     m_showMainWindowAction = new QAction(QStringLiteral("关于系统"), this);
     connect(m_showMainWindowAction, SIGNAL(triggered()), this, SLOT(on_showMainAction()));
+    m_transparent = new QAction(QStringLiteral("透明化"), this);
+    connect(m_transparent, SIGNAL(triggered()), this, SLOT(transparent()));
     m_exitAction = new QAction(QStringLiteral("退出"), this);
     connect(m_exitAction, SIGNAL(triggered()), this, SLOT(on_exitAppAction()));
     m_lockwindow = new QAction(QStringLiteral("取消锁定"), this);
@@ -85,6 +82,7 @@ void Notes::CreateMenu()
 {
     m_menu = new QMenu(this);
     m_menu->addAction(m_showMainWindowAction);
+    m_menu->addAction(m_transparent);
     m_menu->addAction(m_lockwindow);
     m_menu->addSeparator();
     m_menu->addAction(m_exitAction);
@@ -115,12 +113,17 @@ void Notes::InsertDesktop()
 
     //    ShowWindow(hwndWorkerW, 0);
         SetParent((HWND)this->winId(), NULL);
+        setWindowFlags(!Qt::FramelessWindowHint);
+        this->show();
     }
     else
     {
-        SetParent((HWND)this->winId(), (HWND)(0x000101A6));
+        SetParent((HWND)this->winId(), (HWND)(0x000500EA));
+        setWindowFlags(Qt::FramelessWindowHint);
+        this->show();
         //this->setWindowFlags(Qt::FramelessWindowHint);
     }
+    
     m_lockstatus = !m_lockstatus;
 }
 void Notes::InsertDesktop2()
@@ -156,6 +159,40 @@ void Notes::lockwindow()
     InsertDesktop();
 }
 
+void Notes::transparent()
+{
+    // method 1  调用windows系统函数
+    // 对整体窗口有效，主窗口内的某个窗口或者控件无效
+    //::SetWindowLong((HWND)this->winId(), GWL_EXSTYLE, GetWindowLong((HWND)this->winId(), GWL_EXSTYLE) ^ WS_EX_LAYERED);
+    //::SetLayeredWindowAttributes((HWND)this->winId(), 0, 128, 2);
+    //this->show();
+
+    // method 2  
+    // 整体透明化，包含子控件。如果透明度设成0.0，将会显示黑背景
+    QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect;
+    opacityEffect->setOpacity(0.5);
+    setGraphicsEffect(opacityEffect);
+    this->show();
+
+    // method 3 
+    // 设置整体透明度，包括子控件。如果透明度设成0.0，将会“消失”
+    //setWindowOpacity(0.5);
+
+    // method 4 
+    // 未成功，仅仅看到下述函数将窗口背景设成了黑色
+    // 该函数形参为true时，会将窗口背景设置为黑色。
+    //setAttribute(Qt::WA_TranslucentBackground, true); 
+    //QPalette pal = palette();
+    //pal.setColor(QPalette::Background, QColor(155, 155, 255, 45));
+    //setPalette(pal);
+
+    // method 5
+    // 未成功
+    //QPalette palette;
+    //palette.setColor(QPalette::Background, QColor(255, 0, 0, 127));
+    //this->setPalette(palette);
+}
+
 void Notes::on_showMainAction()
 {
     QApplication::setQuitOnLastWindowClosed(false);
@@ -174,3 +211,4 @@ void Notes::closeEvent(QCloseEvent* event)
     this->hide();
     event->ignore();
 }
+

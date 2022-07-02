@@ -5,7 +5,10 @@
 #include <QMenu>
 #include <QAction>
 #include <QCloseEvent>
+#include <QPalette>
+#include <QPainter>
 #include <QMessageBox>
+#include <QGraphicsOpacityEffect>
 #include "ui_Notes.h"
 #include <Windows.h>
 
@@ -26,6 +29,7 @@ private:
     static bool enumUserWindowsCB(HWND hwnd, LPARAM lParam);
 private slots:
     void lockwindow();
+    void transparent();
     void on_showMainAction();
     void on_exitAppAction();
 
@@ -40,6 +44,7 @@ private:
     QAction* m_lockwindow;
     QAction* m_showMainWindowAction;
     QAction* m_exitAction;
+    QAction* m_transparent;
 
     bool m_lockstatus;
     HWND m_hwndMywindow;
